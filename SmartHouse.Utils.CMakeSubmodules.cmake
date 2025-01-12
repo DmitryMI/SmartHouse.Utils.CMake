@@ -28,17 +28,33 @@ function(SmartHouseSubmoduleInit submodule_url branch)
         execute_process(
             COMMAND git submodule add -b ${branch} ${submodule_url} ${submodule_dir}
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            RESULT_VARIABLE git_result
         )
+        if(result) 
+            message(FATAL_ERROR "'git submodule add' failed with code ${result}") 
+        endif()
+
         execute_process(
             COMMAND git submodule update --init --recursive
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            RESULT_VARIABLE git_result
         )
+
+        if(result) 
+            message(FATAL_ERROR "'git submodule update --init --recursive' failed with code ${result}") 
+        endif()
+
     else()
         message(STATUS "[SmartHouseSubmodule] Updating submodule ${submodule_dir}")
         execute_process(
             COMMAND git -C ${submodule_dir} pull origin ${branch}
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            RESULT_VARIABLE git_result
         )
+        if(result) 
+            message(FATAL_ERROR "'git pull origin' failed with code ${result}") 
+        endif()
+
     endif()
     
     add_subdirectory(${CMAKE_SOURCE_DIR}/${submodule_dir})
