@@ -35,7 +35,7 @@ function(SmartHouseSubmoduleInit submodule_url branch)
         endif()
 
         execute_process(
-            COMMAND git submodule update --init --recursive
+            COMMAND git submodule update --init
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
             RESULT_VARIABLE git_result
         )
